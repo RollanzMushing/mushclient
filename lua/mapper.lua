@@ -534,6 +534,7 @@ local function draw_room (uid, path, x, y)
 
 
   local left, top, right, bottom = x - HALF_ROOM, y - HALF_ROOM, x + HALF_ROOM, y + HALF_ROOM
+  local left2, top2, right2, bottom2 = x - HALF_ROOM * 0.5, y - HALF_ROOM * 0.5, x + HALF_ROOM * 0.5, y + HALF_ROOM * 0.5
 
   -- forget it if off screen
   if x < HALF_ROOM or y < HALF_ROOM or
@@ -691,6 +692,16 @@ local function draw_room (uid, path, x, y)
     WindowCircleOp (win, miniwin.circle_rectangle, left, top, right, bottom,
                     room.bordercolour, room.borderpen, room.borderpenwidth,  -- pen
                     -1, miniwin.brush_null)  -- opaque, no brush
+    if room.symbolColour then
+      WindowPolygon (win, string.format("%i, %i, %i, %i, %i, %i", left2, top2, right2, top2, left2, bottom2),
+										 0, 5, 1, -- no pen
+										 room.symbolColour, 0, true, false)
+    end -- if
+    if room.symbolBackColour then
+      WindowPolygon (win, string.format("%i, %i, %i, %i, %i, %i", right2, top2, right2, bottom2, left2, bottom2),
+										 0xffffff, 5, 1, -- no pen1
+										room.symbolBackColour, 0, true, false)
+    end -- if
   end -- if
 
 
